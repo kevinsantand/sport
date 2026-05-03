@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programme Sport — Exercices Illustrés</title>
+<style>
+  :root {
+    --green:#2E6B4F; --green-l:#5A9E7A; --green-p:#EAF4EE;
+    --orange:#F4A261; --orange-p:#FEF3E8;
+    --dark:#1A2E24; --border:#A8D5B5; --white:#fff; --gray:#f7f7f5;
+    --purple:#7B5EA7; --purple-p:#F0EBF8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--gray);color:var(--dark);}
+
+  /* HEADER */
+  .hdr{background:var(--green);color:#fff;padding:18px 14px 14px;text-align:center;}
+  .hdr h1{font-size:1.3rem;font-weight:700;margin-bottom:3px;}
+  .hdr p{font-size:.8rem;opacity:.85;}
+
+  /* TABS */
+  .tabs{display:flex;overflow-x:auto;background:var(--dark);gap:2px;padding:0 2px;scrollbar-width:none;}
+  .tabs::-webkit-scrollbar{display:none;}
+  .tb{flex:none;padding:10px 13px;color:rgba(255,255,255,.6);font-size:.74rem;font-weight:700;cursor:pointer;border:none;background:transparent;white-space:nowrap;border-bottom:3px solid transparent;transition:all .2s;text-transform:uppercase;letter-spacing:.04em;}
+  .tb.active{color:#fff;border-bottom-color:var(--orange);}
+  .tb:hover{color:#fff;}
+
+  /* CONTENT */
+  .tc{display:none;padding:12px;max-width:860px;margin:0 auto;}
+  .tc.active{display:block;}
+
+  /* DAY HEADER */
+  .dh{background:var(--green-l);color:#fff;border-radius:10px;padding:12px 14px;margin-bottom:12px;}
+  .dh h2{font-size:1.05rem;font-weight:700;}
+  .dh p{font-size:.8rem;opacity:.9;margin-top:2px;}
+  .dh .bdg{margin-top:7px;display:flex;gap:6px;flex-wrap:wrap;}
+  .bdg span{background:rgba(255,255,255,.25);border-radius:20px;padding:3px 9px;font-size:.72rem;font-weight:600;}
+
+  /* ALERT BOXES */
+  .abox{background:var(--orange-p);border-left:4px solid var(--orange);border-radius:8px;padding:11px 13px;margin-bottom:12px;}
+  .abox h3{color:var(--orange);font-size:.85rem;font-weight:700;margin-bottom:5px;}
+  .abox p{font-size:.8rem;line-height:1.5;}
+  .wup{background:var(--green-p);border-radius:8px;padding:9px 13px;margin-bottom:12px;font-size:.8rem;color:var(--green);display:flex;align-items:center;gap:8px;}
+
+  /* SECTION TITLE */
+  .st{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green);margin:14px 0 8px;display:flex;align-items:center;gap:8px;}
+  .st::after{content:'';flex:1;height:1px;background:var(--border);}
+
+  /* EXERCISE BLOCK */
+  .exblock{margin-bottom:16px;}
+
+  /* MAIN CARD */
+  .card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 5px rgba(0,0,0,.07);border:1px solid #ebebeb;margin-bottom:4px;}
+  .card.adapted{border:2px solid var(--orange);}
+  .card.goal{border:2px solid var(--green-l);}
+
+  .cbadge{padding:5px 12px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+  .cbadge.adapted{background:var(--orange);color:#fff;}
+  .cbadge.goal{background:var(--green-l);color:#fff;}
+  .cbadge.normal{background:var(--green-p);color:var(--green);}
+
+  .cgif{width:100%;display:flex;justify-content:center;align-items:center;background:var(--gray);padding:8px;min-height:150px;}
+  .cgif img{width:148px;height:148px;object-fit:contain;border-radius:6px;}
+
+  .cbody{padding:11px 12px;}
+  .cname{font-size:.92rem;font-weight:700;margin-bottom:5px;}
+  .cmuscles{font-size:.72rem;color:var(--green-l);font-weight:600;margin-bottom:7px;}
+  .cmeta{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;}
+  .pill{background:var(--green-p);color:var(--green);border-radius:20px;padding:3px 9px;font-size:.75rem;font-weight:600;}
+  .pill.o{background:var(--orange-p);color:#c87333;}
+  .pill.p{background:var(--purple-p);color:var(--purple);}
+  .ctip{font-size:.78rem;color:#555;line-height:1.45;border-top:1px solid #f0f0f0;padding-top:7px;}
+  .ctip strong{color:var(--dark);}
+
+  /* VARIANTS TOGGLE */
+  .vtoggle{width:100%;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 12px;background:#fff;border:1px solid var(--border);border-radius:8px;font-size:.78rem;font-weight:700;color:var(--green-l);cursor:pointer;transition:all .2s;margin-bottom:2px;}
+  .vtoggle:hover{background:var(--green-p);}
+  .vtoggle .arrow{transition:transform .25s;font-size:.7rem;}
+  .vtoggle.open .arrow{transform:rotate(180deg);}
+
+  /* VARIANTS GRID */
+  .vgrid{display:none;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;margin-bottom:4px;}
+  .vgrid.open{display:grid;}
+
+  /* VARIANT CARD */
+  .vcard{background:#fff;border-radius:9px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);border:1px solid #e8e8e8;}
+  .vcbadge{padding:4px 10px;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;background:var(--purple-p);color:var(--purple);}
+  .vcgif{display:flex;justify-content:center;align-items:center;background:var(--gray);padding:7px;min-height:130px;}
+  .vcgif img{width:126px;height:126px;object-fit:contain;border-radius:5px;}
+  .vcbody{padding:9px 10px;}
+  .vcname{font-size:.84rem;font-weight:700;margin-bottom:4px;}
+  .vcmeta{display:flex;gap:5px;margin-bottom:6px;flex-wrap:wrap;}
+  .vcpill{background:var(--purple-p);color:var(--purple);border-radius:20px;padding:2px 8px;font-size:.71rem;font-weight:600;}
+  .vctip{font-size:.75rem;color:#666;line-height:1.4;border-top:1px solid #f0f0f0;padding-top:6px;}
+
+  /* REST DAY */
+  .rest{text-align:center;padding:24px 12px;}
+  .rest .icon{font-size:2.8rem;margin-bottom:10px;}
+  .rest h2{font-size:1.1rem;color:var(--green);margin-bottom:7px;}
+  .rest p{font-size:.83rem;color:#666;max-width:340px;margin:0 auto 14px;line-height:1.6;}
+  .yoga-list{text-align:left;max-width:360px;margin:0 auto;background:#fff;border-radius:10px;padding:13px 15px;box-shadow:0 1px 4px rgba(0,0,0,.07);}
+  .yoga-list li{font-size:.83rem;line-height:1.8;list-style:none;padding-left:22px;position:relative;}
+  .yoga-list li::before{content:'🧘';position:absolute;left:0;}
+
+  /* INFO BOX */
+  .ibox{background:#fff;border-radius:10px;padding:13px;margin-bottom:11px;box-shadow:0 1px 4px rgba(0,0,0,.06);border-left:4px solid var(--green);}
+  .ibox h3{font-size:.87rem;font-weight:700;color:var(--green);margin-bottom:5px;}
+  .ibox ul{padding-left:16px;font-size:.81rem;line-height:1.75;}
+  .ibox.o{border-left-color:var(--orange);}
+  .ibox.o h3{color:var(--orange);}
+
+  .footer{text-align:center;padding:18px 12px;font-size:.72rem;color:#aaa;border-top:1px solid var(--border);margin-top:18px;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>🏋️ Programme Sport — Exercices + Variantes</h1>
+  <p>Chaque exercice a 2 variantes si la machine ou l'équipement est occupé</p>
+</div>
+
+<div class="tabs">
+  <button class="tb active" onclick="showTab('lundi',this)">LUNDI</button>
+  <button class="tb" onclick="showTab('mardi',this)">MARDI</button>
+  <button class="tb" onclick="showTab('mercredi',this)">MERCREDI</button>
+  <button class="tb" onclick="showTab('jeudi',this)">JEUDI</button>
+  <button class="tb" onclick="showTab('vendredi',this)">VENDREDI</button>
+  <button class="tb" onclick="showTab('conseils',this)">CONSEILS</button>
+</div>
+
+<!-- ══════════════════ LUNDI ══════════════════ -->
+<div id="tab-lundi" class="tc active">
+  <div class="dh">
+    <h2>🟢 LUNDI — Haut du corps A — Poussée (Push)</h2>
+    <p>Pectoraux · Épaules · Triceps</p>
+    <div class="bdg"><span>55 min</span><span>Salle</span></div>
+  </div>
+
+  <div class="abox">
+    <h3>⚡ Adaptations débutante — Développé couché &amp; Militaire</h3>
+    <p>Commencez par les machines (cartes <span style="color:var(--orange);font-weight:700">MAINTENANT</span>). Dans 4–6 semaines, progressez vers les haltères libres (cartes <span style="color:var(--green-l);font-weight:700">OBJECTIF</span>). Chaque exercice propose 2 variantes si l'équipement est occupé — bouton <strong>Voir les variantes 🔄</strong>.</p>
+  </div>
+  <div class="wup">⏱ <div><strong>Échauffement :</strong> 5 min vélo ou rameur, intensité modérée</div></div>
+
+  <!-- EX 1 -->
+  <div class="st">Ex 1 — Développé couché</div>
+  <div class="exblock">
+    <div class="card adapted">
+      <div class="cbadge adapted">✅ MAINTENANT — Machine presse pectorale</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Chest-Press-Machine.gif" alt="Machine presse" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Machine Presse Pectorale</div>
+        <div class="cmuscles">Pectoraux · Épaules avant · Triceps</div>
+        <div class="cmeta"><span class="pill">4 séries</span><span class="pill">12–15 reps</span><span class="pill o">Machine guidée</span></div>
+        <div class="ctip">Dos plaqué contre le dossier, bras poussés sans verrouiller les coudes. Commencez charge 1 ou 2, sentez le pectoral travailler.</div>
+      </div>
+    </div>
+    <div class="card goal">
+      <div class="cbadge goal">🎯 OBJECTIF (semaines 5–6)</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Press-1.gif" alt="Développé haltères" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Développé couché — Haltères (4–6 kg)</div>
+        <div class="cmuscles">Pectoraux · Épaules avant · Triceps</div>
+        <div class="cmeta"><span class="pill">4 séries</span><span class="pill">10–12 reps</span></div>
+        <div class="ctip">Couché sur banc plat, omoplates rétractées, pieds au sol. Descente contrôlée (2 sec), poussée explosive. Ne verrouillez pas les coudes en haut.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes si banc/machine occupé <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Pompes sur genoux</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/04/Knee-Push-Up.gif" alt="Pompes genoux" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Pompes sur genoux</div>
+          <div class="vcmeta"><span class="vcpill">3×10–15</span><span class="vcpill">Poids du corps</span></div>
+          <div class="vctip">Aucun équipement. Corps aligné genoux-épaules, poitrine près du sol. Efficace même sans machine.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Écartés haltères (fly)</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Fly.gif" alt="Dumbbell fly" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Écartés haltères (Dumbbell Fly)</div>
+          <div class="vcmeta"><span class="vcpill">3×12–15</span><span class="vcpill">Haltères légers</span></div>
+          <div class="vctip">Allongée sur banc, bras ouverts sur les côtés. Plus léger que le développé, mais excellent pour les pectoraux externes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 2 -->
+  <div class="st">Ex 2 — Développé militaire (épaules)</div>
+  <div class="exblock">
+    <div class="card adapted">
+      <div class="cbadge adapted">✅ MAINTENANT — Haltères 2–3 kg assis</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Shoulder-Press.gif" alt="Press épaules" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Développé épaules assis — Haltères très légers</div>
+        <div class="cmuscles">Deltoïdes · Triceps</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">15 reps</span><span class="pill o">2–3 kg</span></div>
+        <div class="ctip">Assise sur banc avec dossier. Dos droit, pas de cambrure. Poussez les bras au-dessus de la tête en contrôlant. Si 2 kg difficile, utilisez la machine overhead press.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes si machine/haltères occupés <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Arnold Press</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Arnold-Press.gif" alt="Arnold press" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Arnold Press — Haltères</div>
+          <div class="vcmeta"><span class="vcpill">3×12</span><span class="vcpill">2–4 kg</span></div>
+          <div class="vctip">Rotation des poignets pendant la poussée. Travaille les 3 faisceaux du deltoïde. Idéal si les haltères standards sont pris.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Élévations latérales</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lateral-Raise.gif" alt="Élévations latérales" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Élévations latérales — Haltères</div>
+          <div class="vcmeta"><span class="vcpill">3×15</span><span class="vcpill">2–3 kg</span></div>
+          <div class="vctip">Cible les épaules latérales. Excellent remplacement si toutes les machines sont occupées. Aucune contrainte d'espace.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 3 -->
+  <div class="st">Ex 3 — Élévations latérales</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Isolation épaules latérales</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lateral-Raise.gif" alt="Élévations latérales" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Élévations latérales — Haltères 2–4 kg</div>
+        <div class="cmuscles">Deltoïdes latéraux</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">12–15 reps</span></div>
+        <div class="ctip">Légère flexion du coude, bras montent jusqu'aux épaules. Mouvement lent et contrôlé. Poids très léger = bonne exécution.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Arnold Press</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Arnold-Press.gif" alt="Arnold press" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Arnold Press</div>
+          <div class="vcmeta"><span class="vcpill">3×12</span></div>
+          <div class="vctip">Travaille aussi les épaules latérales en rotation. Bon substitut si les petits haltères sont tous pris.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Face pulls (câble)</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Face-Pull.gif" alt="Face pull" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Face Pulls — Poulie haute</div>
+          <div class="vcmeta"><span class="vcpill">3×15</span></div>
+          <div class="vctip">Cible les épaules arrière et latérales. Double bénéfice : posture + épaules.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 4 -->
+  <div class="st">Ex 4 — Pompes</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Poids du corps</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/04/Knee-Push-Up.gif" alt="Pompes sur genoux" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Pompes sur genoux</div>
+        <div class="cmuscles">Pectoraux · Épaules · Triceps · Core</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">8–12 reps</span></div>
+        <div class="ctip">Genoux au sol, corps aligné. Poitrine descend à 2 cm du sol. Quand maîtrisé : pompes classiques sur pointe des pieds.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Machine presse pectorale</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Chest-Press-Machine.gif" alt="Machine presse" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Machine Presse Pectorale</div>
+          <div class="vcmeta"><span class="vcpill">3×15</span><span class="vcpill">Poids réduit</span></div>
+          <div class="vctip">Si vous avez fait la machine en Ex 1, passez directement à la variante B.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Écartés haltères (fly)</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Fly.gif" alt="Dumbbell fly" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Écartés haltères (Fly)</div>
+          <div class="vcmeta"><span class="vcpill">3×12</span><span class="vcpill">Haltères légers</span></div>
+          <div class="vctip">Allongée sur banc. Bras ouverts sur les côtés. Excellent isolateur de poitrine.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 5 -->
+  <div class="st">Ex 5 — Triceps</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Isolation triceps</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Pushdown.gif" alt="Triceps pushdown" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Triceps Pushdown — Poulie haute</div>
+        <div class="cmuscles">Triceps brachial</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">12–15 reps</span></div>
+        <div class="ctip">Coudes collés aux flancs, seuls les avant-bras descendent. Contrôlez la montée. Charge légère.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes si poulie occupée <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Dips sur banc</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Triceps-Dips.gif" alt="Triceps dips" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Dips sur banc (Bench Dips)</div>
+          <div class="vcmeta"><span class="vcpill">3×10–12</span><span class="vcpill">Poids du corps</span></div>
+          <div class="vctip">Mains sur le bord d'un banc, pieds au sol. Descendez les fesses vers le sol en fléchissant les coudes à 90°. Très efficace pour les triceps, aucun équipement spécifique.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Extension triceps Arnold Press</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Arnold-Press.gif" alt="Triceps overhead" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Extension triceps overhead haltère</div>
+          <div class="vcmeta"><span class="vcpill">3×12</span><span class="vcpill">1 haltère 3–5 kg</span></div>
+          <div class="vctip">Tenez un haltère à deux mains au-dessus de la tête. Pliez les coudes pour descendre l'haltère derrière la nuque. Coudes pointés vers le plafond.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 6 -->
+  <div class="st">Ex 6 — Gainage</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Core</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/plank.gif" alt="Planche" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Gainage frontal (Planche)</div>
+        <div class="cmuscles">Abdominaux profonds · Lombaires · Fessiers</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">30–45 sec</span></div>
+        <div class="ctip">Corps droit de la tête aux talons. Fesses ni trop hautes ni trop basses. Variante facile : genoux au sol.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Gainage latéral</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Side-Plank-1.png" alt="Gainage latéral" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Gainage latéral (Side Plank)</div>
+          <div class="vcmeta"><span class="vcpill">3×30 sec/côté</span></div>
+          <div class="vctip">Sur le coude ou la main. Hanches soulevées, corps aligné. Genoux au sol pour version facile.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Crunchs</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2015/11/Crunch.gif" alt="Crunch" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Crunchs abdominaux</div>
+          <div class="vcmeta"><span class="vcpill">3×15–20</span></div>
+          <div class="vctip">Uniquement les épaules qui se soulèvent, pas tout le dos. Idéal pour varier le travail abdominal.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ MARDI ══════════════════ -->
+<div id="tab-mardi" class="tc">
+  <div class="dh">
+    <h2>🦵 MARDI — Bas du corps A — Quadriceps</h2>
+    <p>Cuisses avant · Mollets · Abdos</p>
+    <div class="bdg"><span>55 min</span><span>Salle</span></div>
+  </div>
+  <div class="wup">⏱ <div><strong>Échauffement :</strong> 5 min vélo stationnaire, intensité croissante</div></div>
+
+  <!-- EX 1 -->
+  <div class="st">Ex 1 — Squat</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Compound — Cuisses &amp; Fessiers</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/05/bodyweight-squat-full-version.gif" alt="Goblet squat" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Goblet Squat (haltère devant la poitrine)</div>
+        <div class="cmuscles">Quadriceps · Fessiers · Core</div>
+        <div class="cmeta"><span class="pill">4 séries</span><span class="pill">8–12 reps</span></div>
+        <div class="ctip">Pieds largeur épaules, orteils légèrement vers l'extérieur. Descendez dos droit comme pour s'asseoir. Montée en poussant dans le sol. <strong>Débutante :</strong> commencez sans haltère.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes si zone squat occupée <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Presse à cuisses</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2015/11/Leg-Press.gif" alt="Leg press" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Presse à Cuisses</div>
+          <div class="vcmeta"><span class="vcpill">4×12–15</span><span class="vcpill">Machine</span></div>
+          <div class="vctip">Parfait si la zone squat est bondée. Même groupe musculaire, mouvement plus sécurisé. Pieds à largeur d'épaules, ne verrouillez pas les genoux.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Split squat bulgare</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/05/Dumbbell-Bulgarian-Split-Squat.gif" alt="Bulgarian split squat" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Split Squat Bulgare — Haltères</div>
+          <div class="vcmeta"><span class="vcpill">3×10/jambe</span><span class="vcpill">Haltères légers</span></div>
+          <div class="vctip">Pied arrière sur un banc, pied avant à l'avant. Descente contrôlée. Très efficace pour les quadriceps et fessiers. Nécessite juste un banc et des haltères.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 2 -->
+  <div class="st">Ex 2 — Presse à cuisses</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Machine sécurisée</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2015/11/Leg-Press.gif" alt="Leg press" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Presse à Cuisses</div>
+        <div class="cmuscles">Quadriceps · Fessiers · Ischio-jambiers</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">12–15 reps</span></div>
+        <div class="ctip">Pieds à largeur d'épaules sur la plateforme. Descendez à 90°. Ne verrouillez pas les genoux en haut.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes si machine occupée <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Goblet Squat</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/05/bodyweight-squat-full-version.gif" alt="Squat" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Goblet Squat</div>
+          <div class="vcmeta"><span class="vcpill">4×12</span><span class="vcpill">Haltère ou poids corps</span></div>
+          <div class="vctip">Retour vers l'Ex 1. Vous pouvez faire 2 séries de goblet squat supplémentaires à la place.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Split Squat Bulgare</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/05/Dumbbell-Bulgarian-Split-Squat.gif" alt="Bulgarian" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Split Squat Bulgare</div>
+          <div class="vcmeta"><span class="vcpill">3×10/jambe</span></div>
+          <div class="vctip">Unilatéral donc très efficace avec peu de charge. Nécessite un banc + haltères légers.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 3 -->
+  <div class="st">Ex 3 — Fentes avant</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Unilatéral · Équilibre</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lunge.gif" alt="Fentes" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Fentes avant — Haltères</div>
+        <div class="cmuscles">Quadriceps · Fessiers · Équilibre</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">10 reps/jambe</span></div>
+        <div class="ctip"><strong>Débutante :</strong> commencez sans haltères. Genou avant à 90°, genou arrière qui effleure le sol. Dos droit.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes si espace limité <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Step-Up sur banc</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/12/Dumbeel-Step-Up.gif" alt="Step up" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Step-Up — Banc ou box</div>
+          <div class="vcmeta"><span class="vcpill">3×12/jambe</span><span class="vcpill">Haltères optionnel</span></div>
+          <div class="vctip">Montez sur un banc une jambe à la fois. Excellent substitut aux fentes, moins d'espace requis. Poussez dans le talon pour solliciter les fessiers.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Split Squat Bulgare</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/05/Dumbbell-Bulgarian-Split-Squat.gif" alt="Bulgarian" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Split Squat Bulgare</div>
+          <div class="vcmeta"><span class="vcpill">3×10/jambe</span></div>
+          <div class="vctip">Pied arrière sur banc, plus intense que les fentes. Travaille les fessiers et quadriceps en profondeur.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 4 -->
+  <div class="st">Ex 4 — Extensions jambes</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Machine — Isolation quadriceps</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/LEG-EXTENSION.gif" alt="Leg extension" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Extensions Jambes (Machine)</div>
+        <div class="cmuscles">Quadriceps (devant cuisse)</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">12–15 reps</span></div>
+        <div class="ctip">Amplitude complète. Contractez le quadriceps en haut. Descente lente (2 sec). Charge modérée.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes si machine occupée <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Fentes statiques (Split squat)</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lunge.gif" alt="Fentes statiques" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Fentes statiques / Split Squat</div>
+          <div class="vcmeta"><span class="vcpill">3×12/jambe</span></div>
+          <div class="vctip">Fente sans avancer — on reste sur place et on monte/descend. Isole mieux les quadriceps que la fente en marche.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Step-Up banc</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/12/Dumbeel-Step-Up.gif" alt="Step up" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Step-Up sur banc</div>
+          <div class="vcmeta"><span class="vcpill">3×12/jambe</span></div>
+          <div class="vctip">Excellent pour les quadriceps et fessiers. Requiert uniquement un banc.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 5 -->
+  <div class="st">Ex 5 — Mollets</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Mollets debout</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/06/Standing-Calf-Raise.gif" alt="Mollets" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Mollets debout (machine ou marche)</div>
+        <div class="cmuscles">Gastrocnémiens</div>
+        <div class="cmeta"><span class="pill">4 séries</span><span class="pill">15–20 reps</span></div>
+        <div class="ctip">Montée complète, tenue 1 sec en haut, descente lente. Sur une marche pour plus d'amplitude.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Mollets sur sol haltères</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/06/Standing-Calf-Raise.gif" alt="Mollets haltères" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Mollets debout — Haltères à la main</div>
+          <div class="vcmeta"><span class="vcpill">4×20</span></div>
+          <div class="vctip">Même mouvement mais avec haltères dans les mains pour ajouter de la résistance. Très simple à réaliser partout dans la salle.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Mollets sur la presse</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2015/11/Leg-Press.gif" alt="Mollets presse" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Mollets sur la presse à cuisses</div>
+          <div class="vcmeta"><span class="vcpill">4×20</span><span class="vcpill">Charge légère</span></div>
+          <div class="vctip">Posez l'avant du pied sur le bord de la plateforme de la presse. Fléchissez/étendez les chevilles. Amplitude maximale.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 6 -->
+  <div class="st">Ex 6 — Abdominaux</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Core</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2015/11/Crunch.gif" alt="Crunch" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Crunchs + Relevés de bassin</div>
+        <div class="cmuscles">Grand droit · Abdos inférieurs</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">15 + 12 reps</span></div>
+        <div class="ctip">Crunchs : épaules seules qui se soulèvent. Relevés de bassin : jambes à 90°, bassin vers le plafond. Aucun équipement.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Gainage frontal</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/plank.gif" alt="Planche" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Gainage frontal (Planche)</div>
+          <div class="vcmeta"><span class="vcpill">3×40 sec</span></div>
+          <div class="vctip">Si vous préférez ne pas faire les crunchs ce jour-là, remplacez par 3 séries de gainage isométrique.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Gainage latéral</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Side-Plank-1.png" alt="Gainage latéral" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Gainage latéral (Side Plank)</div>
+          <div class="vcmeta"><span class="vcpill">3×30 sec/côté</span></div>
+          <div class="vctip">Travaille les obliques. Excellent complément pour se redessiner la taille.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ MERCREDI ══════════════════ -->
+<div id="tab-mercredi" class="tc">
+  <div class="rest">
+    <div class="icon">🧘‍♀️</div>
+    <h2>MERCREDI — Récupération Active</h2>
+    <p>Yoga ou Pilates à la maison · 45 minutes · Ce jour réduit le cortisol et soutient votre équilibre hormonal. Aussi important que vos séances de musculation.</p>
+    <div class="yoga-list">
+      <ul>
+        <li>Salutation au soleil — 5 cycles lents</li>
+        <li>Pont fessier Pilates — 3×15</li>
+        <li>Dead bug Pilates — 3×10/côté</li>
+        <li>Guerrier I et II Yoga — 1 min/côté</li>
+        <li>Chien tête en bas — 1 min</li>
+        <li>Pose de l'enfant — 2 min</li>
+        <li>Sphinx Yoga — 2 min</li>
+        <li>Torsion allongée — 2 min/côté</li>
+        <li>Cohérence cardiaque — 5–10 min</li>
+      </ul>
+    </div>
+    <br>
+    <div class="ibox" style="max-width:380px;margin:0 auto;text-align:left;">
+      <h3>💡 Applications recommandées</h3>
+      <ul><li>Yoga avec Adriene (YouTube — gratuit)</li><li>Down Dog (Yoga / Pilates)</li><li>Respirelax+ (cohérence cardiaque)</li></ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ JEUDI ══════════════════ -->
+<div id="tab-jeudi" class="tc">
+  <div class="dh">
+    <h2>🔵 JEUDI — Haut du corps B — Tirage (Pull)</h2>
+    <p>Dos · Biceps · Épaules arrière</p>
+    <div class="bdg"><span>55 min</span><span>Salle</span></div>
+  </div>
+  <div class="wup">⏱ <div><strong>Échauffement :</strong> 5 min rameur ou elliptique</div></div>
+
+  <!-- EX 1 -->
+  <div class="st">Ex 1 — Tirage vertical</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Grand dorsal · Dos large</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Lat-Pulldown.gif" alt="Lat pulldown" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Tirage Vertical (Lat Pulldown)</div>
+        <div class="cmuscles">Grand dorsal · Biceps · Rhomboïdes</div>
+        <div class="cmeta"><span class="pill">4 séries</span><span class="pill">10–12 reps</span></div>
+        <div class="ctip">Omoplates vers le bas avant de tirer. Amenez la barre vers la clavicule. Contrôlez la montée.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes si machine occupée <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Rowing câble assis</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Seated-Cable-Row.gif" alt="Seated cable row" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Rowing Câble Assis (Poulie basse)</div>
+          <div class="vcmeta"><span class="vcpill">4×12</span><span class="vcpill">Même muscles</span></div>
+          <div class="vctip">Même grand dorsal ciblé, angle différent. Tirez vers l'abdomen en serrant les omoplates. Excellent substitut.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Rowing haltère unilatéral</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Bent-Over-Dumbbell-Row.gif" alt="Rowing haltère" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Rowing Haltère (1 bras)</div>
+          <div class="vcmeta"><span class="vcpill">4×10/bras</span><span class="vcpill">Haltère</span></div>
+          <div class="vctip">Genou et main sur banc. Tirez vers la hanche. Nécessite juste un banc et un haltère.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 2 -->
+  <div class="st">Ex 2 — Rowing haltère</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Dos &amp; Biceps — Unilatéral</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Bent-Over-Dumbbell-Row.gif" alt="Rowing haltère" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Rowing Haltère — 1 bras</div>
+        <div class="cmuscles">Grand dorsal · Rhomboïdes · Biceps</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">10–12 reps/bras</span></div>
+        <div class="ctip">Genou et main sur le banc. Tirez vers la hanche (pas l'épaule), coude vers le plafond. Dos plat, ne tournez pas le buste.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes si bancs occupés <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Rowing câble assis</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Seated-Cable-Row.gif" alt="Cable row" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Rowing Câble Assis</div>
+          <div class="vcmeta"><span class="vcpill">3×12</span></div>
+          <div class="vctip">Très bon substitut. Tirez vers l'abdomen, dos droit. Si cette machine est aussi prise, passez à la variante B.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Lat Pulldown</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Lat-Pulldown.gif" alt="Lat pulldown" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Tirage Vertical (Lat Pulldown)</div>
+          <div class="vcmeta"><span class="vcpill">3×12</span></div>
+          <div class="vctip">Si l'Ex 1 n'était pas fait avec la machine, faites-le maintenant. Deux exercices de tirage avec différentes machines pour le dos.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 3 -->
+  <div class="st">Ex 3 — Face Pulls (posture)</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Épaules arrière · Posture</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Face-Pull.gif" alt="Face pull" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Face Pulls — Poulie haute (corde)</div>
+        <div class="cmuscles">Deltoïdes postérieurs · Trapèzes · Rotateurs</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">15 reps</span><span class="pill o">Charge légère</span></div>
+        <div class="ctip">Corde à hauteur du visage. Tirez vers votre front en écartant les coudes sur les côtés. Toujours charge légère.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes si poulie occupée <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Rear Delt Fly câble</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/cable-rear-delt-fly.gif" alt="Cable rear delt fly" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Rear Delt Fly — Câble croisé</div>
+          <div class="vcmeta"><span class="vcpill">3×15</span><span class="vcpill">Charge légère</span></div>
+          <div class="vctip">Mains croisées sur les câbles. Tirez les bras sur les côtés. Cible exactement les mêmes muscles que les face pulls.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Élévations latérales haltères</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lateral-Raise.gif" alt="Élévations" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Élévations latérales — Haltères</div>
+          <div class="vcmeta"><span class="vcpill">3×15</span><span class="vcpill">Penchée en avant</span></div>
+          <div class="vctip">Penchez-vous en avant à 45° pour cibler les épaules arrière (rear delts). Mouvement très lent. Aucune poulie requise.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 4 -->
+  <div class="st">Ex 4 — Curl Biceps</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Isolation biceps</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Curl.gif" alt="Curl biceps" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Curl Biceps — Haltères</div>
+        <div class="cmuscles">Biceps brachial · Avant-bras</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">12–15 reps</span></div>
+        <div class="ctip">Coudes collés aux flancs. Rotation de la paume vers le ciel pendant la montée (supination). Pas d'élan du buste.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes si haltères occupés <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Curl Marteau (Hammer Curl)</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Hammer-Curl.gif" alt="Hammer curl" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Curl Marteau — Haltères</div>
+          <div class="vcmeta"><span class="vcpill">3×12</span><span class="vcpill">Prise neutre</span></div>
+          <div class="vctip">Prise neutre (pouce vers le haut). Travaille biceps + brachio-radial. Si les haltères standards sont pris, utilisez une taille différente.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Curl au câble (poulie basse)</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Seated-Cable-Row.gif" alt="Curl câble" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Curl Biceps — Câble (poulie basse)</div>
+          <div class="vcmeta"><span class="vcpill">3×15</span></div>
+          <div class="vctip">Debout face à la poulie basse. Tirez la barre vers les épaules. Tension constante tout au long du mouvement.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 5 -->
+  <div class="st">Ex 5 — Rowing câble assis</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Dos moyen · Rhomboïdes</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Seated-Cable-Row.gif" alt="Seated row" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Rowing Câble Assis (Poulie basse)</div>
+        <div class="cmuscles">Dos moyen · Rhomboïdes · Biceps</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">12 reps</span></div>
+        <div class="ctip">Assise droite, pieds sur repose-pieds. Tirez vers l'abdomen. Omoplates se rejoignent. Dos droit du début à la fin.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes si machine occupée <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Rowing haltère</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Bent-Over-Dumbbell-Row.gif" alt="Rowing haltère" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Rowing Haltère 1 bras</div>
+          <div class="vcmeta"><span class="vcpill">3×12/bras</span></div>
+          <div class="vctip">Même ciblage musculaire. Nécessite juste un banc et un haltère.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Lat Pulldown</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Lat-Pulldown.gif" alt="Lat pulldown" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Tirage Vertical</div>
+          <div class="vcmeta"><span class="vcpill">3×12</span></div>
+          <div class="vctip">Double séance de tirage vertical si le rowing n'est pas disponible. Le dos travaille tout autant.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 6 -->
+  <div class="st">Ex 6 — Gainage latéral</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Core · Obliques</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Side-Plank-1.png" alt="Gainage latéral" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Gainage Latéral (Side Plank)</div>
+        <div class="cmuscles">Obliques · Abducteurs · Stabilisateurs</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">30 sec/côté</span></div>
+        <div class="ctip">Corps aligné de la tête aux pieds. Version facile : genou du bas au sol. Respirez régulièrement.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Gainage frontal</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/plank.gif" alt="Planche" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Gainage frontal</div>
+          <div class="vcmeta"><span class="vcpill">3×40 sec</span></div>
+          <div class="vctip">Toujours efficace même si vous l'avez déjà fait lundi. On peut en faire 2–3 fois par semaine sans problème.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Crunchs</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2015/11/Crunch.gif" alt="Crunch" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Crunchs abdominaux</div>
+          <div class="vcmeta"><span class="vcpill">3×20</span></div>
+          <div class="vctip">Variante dynamique du gainage. Bonne alternative si vous préférez finir en mouvement.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ VENDREDI ══════════════════ -->
+<div id="tab-vendredi" class="tc">
+  <div class="dh">
+    <h2>🍑 VENDREDI — Bas du corps B — Ischio-fessiers</h2>
+    <p>Fessiers · Arrière des cuisses · Mollets</p>
+    <div class="bdg"><span>55 min</span><span>Salle</span></div>
+  </div>
+  <div class="wup">⏱ <div><strong>Échauffement :</strong> 5 min marche inclinée (8–10%), vitesse 5 km/h</div></div>
+
+  <!-- EX 1 -->
+  <div class="st">Ex 1 — Romanian Deadlift</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Ischio-jambiers · Fessiers · Dos bas</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Romanian-Deadlift.gif" alt="RDL" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Romanian Deadlift — Haltères</div>
+        <div class="cmuscles">Ischio-jambiers · Fessiers · Érecteurs du rachis</div>
+        <div class="cmeta"><span class="pill">4 séries</span><span class="pill">8–10 reps</span></div>
+        <div class="ctip"><strong>Clé :</strong> poussez les hanches vers l'arrière, dos plat, haltères collés aux jambes. Sentez l'étirement des ischio-jambiers. Descente lente.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes si espace/haltères occupés <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Curl jambes machine</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Curl.gif" alt="Leg curl" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Curl Jambes Machine</div>
+          <div class="vcmeta"><span class="vcpill">4×12–15</span><span class="vcpill">Machine</span></div>
+          <div class="vctip">Isole les ischio-jambiers. Très bon substitut si la zone haltères est trop fréquentée.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Cable Donkey Kickback</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/05/Cable-Donkey-Kickback.gif" alt="Donkey kickback" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Kickback Fessier — Câble</div>
+          <div class="vcmeta"><span class="vcpill">3×15/jambe</span></div>
+          <div class="vctip">Debout, attachez le câble à la cheville. Poussez la jambe vers l'arrière en contractant les fessiers. Très bon pour les fessiers inférieurs.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 2 -->
+  <div class="st">Ex 2 — Hip Thrust (L'exercice roi des fessiers)</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Fessiers · Machine Smith ou banc</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2022/09/Smith-Machine-Hip-Thrust.gif" alt="Hip thrust" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Hip Thrust — Machine Smith ou banc + haltère</div>
+        <div class="cmuscles">Grand fessier · Ischio-jambiers</div>
+        <div class="cmeta"><span class="pill">4 séries</span><span class="pill">12–15 reps</span></div>
+        <div class="ctip"><strong>Débutante :</strong> poids du corps d'abord, dos contre un banc, pieds à plat. Contractez fort les fessiers en haut, tenez 1 sec. Ajoutez un haltère progressivement.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes si banc/machine Smith occupé <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Glute Bridge au sol</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Glute-Bridge-.gif" alt="Glute bridge" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Pont fessier au sol (Glute Bridge)</div>
+          <div class="vcmeta"><span class="vcpill">4×20</span><span class="vcpill">Sol / tapis</span></div>
+          <div class="vctip">Allongée sur le dos, genoux fléchis, pieds à plat. Poussez les hanches vers le plafond. Peut se faire n'importe où dans la salle. Ajoutez un haltère sur les hanches pour intensifier.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Kickback câble fessier</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/05/Cable-Donkey-Kickback.gif" alt="Donkey kickback" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Kickback Fessier — Câble</div>
+          <div class="vcmeta"><span class="vcpill">4×15/jambe</span></div>
+          <div class="vctip">Excellent isolateur de grand fessier. Requiert seulement la poulie basse avec attache cheville.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 3 -->
+  <div class="st">Ex 3 — Curl jambes machine</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Ischio-jambiers — Machine</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Curl.gif" alt="Leg curl" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Curl Jambes allongée (Machine)</div>
+        <div class="cmuscles">Ischio-jambiers</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">12–15 reps</span></div>
+        <div class="ctip">Ramenez les talons vers les fesses, contrôlée. Descente lente (2–3 sec). Ne soulevez pas les hanches.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes si machine occupée <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Romanian Deadlift</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Romanian-Deadlift.gif" alt="RDL" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Romanian Deadlift Haltères</div>
+          <div class="vcmeta"><span class="vcpill">3×10</span></div>
+          <div class="vctip">Si l'Ex 1 était une variante, revenez au RDL ici. Les ischio-jambiers seront tout autant sollicités.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Kickback câble</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/05/Cable-Donkey-Kickback.gif" alt="Kickback" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Kickback câble — Fessiers &amp; Ischio</div>
+          <div class="vcmeta"><span class="vcpill">3×15/jambe</span></div>
+          <div class="vctip">Cible à la fois les ischio-jambiers et les fessiers en même temps. Bonne alternative multi-muscles.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 4 -->
+  <div class="st">Ex 4 — Abducteur machine</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Fessier moyen · Hanches</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/HiP-ABDUCTION-MACHINE.gif" alt="Abducteur" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Abducteur Machine (Écartement cuisses)</div>
+        <div class="cmuscles">Fessier moyen · Tenseur du fascia lata</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">15–20 reps</span></div>
+        <div class="ctip">Contractez les fessiers moyens en ouvrant les genoux. Mouvement lent et contrôlé.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes si machine occupée <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Glute Bridge au sol</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Glute-Bridge-.gif" alt="Glute bridge" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Pont fessier — Genoux écartés</div>
+          <div class="vcmeta"><span class="vcpill">3×20</span></div>
+          <div class="vctip">Faites un pont fessier avec les genoux légèrement écartés (45°). Active le fessier moyen de façon différente. Aucun équipement requis.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Split Squat Bulgare</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/05/Dumbbell-Bulgarian-Split-Squat.gif" alt="Bulgarian" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Split Squat Bulgare</div>
+          <div class="vcmeta"><span class="vcpill">3×12/jambe</span></div>
+          <div class="vctip">Travaille les fessiers moyens en stabilisation. Très complet si la machine abducteur est occupée.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 5 -->
+  <div class="st">Ex 5 — Squat finisher</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Finisher dynamique</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/05/bodyweight-squat-full-version.gif" alt="Squat" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Squats sautés ou squats lents</div>
+        <div class="cmuscles">Quadriceps · Fessiers</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">10 reps</span></div>
+        <div class="ctip">Si énergie : squats sautés (explosifs). Si fatiguée : squats lents (5 sec de descente). Écoutez votre corps.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Fentes en marchant</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lunge.gif" alt="Fentes" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Fentes en marchant</div>
+          <div class="vcmeta"><span class="vcpill">3×12/jambe</span></div>
+          <div class="vctip">Avancez en faisant des fentes. Plus dynamique que les fentes statiques. Excellent finisher pour les jambes.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Step-Up rapides</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/12/Dumbeel-Step-Up.gif" alt="Step up" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Step-Up sur banc (rythmé)</div>
+          <div class="vcmeta"><span class="vcpill">3×15/jambe</span></div>
+          <div class="vctip">Montez rapidement sur le banc. Cardio + fessiers + quadriceps. Parfait si vous n'avez plus d'espace libre.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 6 -->
+  <div class="st">Ex 6 — Mollets assis</div>
+  <div class="exblock">
+    <div class="card">
+      <div class="cbadge normal">Mollets internes (soléaire)</div>
+      <div class="cgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/06/Standing-Calf-Raise.gif" alt="Mollets" loading="lazy"></div>
+      <div class="cbody">
+        <div class="cname">Mollets assis (machine) ou debout haltères</div>
+        <div class="cmuscles">Soléaire · Gastrocnémien</div>
+        <div class="cmeta"><span class="pill">3 séries</span><span class="pill">15–20 reps</span></div>
+        <div class="ctip">Montée complète, tenue 1 sec, descente lente. Si la machine mollets assis est prise : debout avec haltères.</div>
+      </div>
+    </div>
+    <button class="vtoggle" onclick="toggleV(this)">🔄 Voir les variantes <span class="arrow">▼</span></button>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante A — Mollets sur la presse</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2015/11/Leg-Press.gif" alt="Leg press mollets" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Mollets sur la presse à cuisses</div>
+          <div class="vcmeta"><span class="vcpill">3×20</span><span class="vcpill">Charge légère</span></div>
+          <div class="vctip">Avant-pied sur le bord de la plateforme. Excellent pour l'amplitude. Si la presse est occupée : descendez vers la variante B.</div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcbadge">🔄 Variante B — Mollets sur une marche</div>
+        <div class="vcgif"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/06/Standing-Calf-Raise.gif" alt="Mollets marche" loading="lazy"></div>
+        <div class="vcbody">
+          <div class="vcname">Mollets sur marche d'escalier</div>
+          <div class="vcmeta"><span class="vcpill">3×25</span><span class="vcpill">Aucun équipement</span></div>
+          <div class="vctip">Bord d'une marche, avant-pied en porte-à-faux. Plus d'amplitude que le sol plat. Tenez une rampe pour l'équilibre.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ CONSEILS ══════════════════ -->
+<div id="tab-conseils" class="tc">
+  <div class="dh">
+    <h2>📋 Conseils &amp; Progression</h2>
+    <div class="bdg"><span>À lire avant de commencer</span></div>
+  </div>
+
+  <div class="ibox">
+    <h3>🔄 Comment utiliser les variantes</h3>
+    <ul>
+      <li>Si un équipement est occupé → cliquez "Voir les variantes" sur l'exercice correspondant</li>
+      <li>Les variantes A et B ciblent les <strong>mêmes muscles</strong> que l'exercice principal</li>
+      <li>Faites <strong>les mêmes séries et répétitions</strong> avec la variante choisie</li>
+      <li>En cas de doute : préférez toujours la variante la moins risquée pour votre niveau</li>
+      <li>Si toutes les options sont occupées : passez à l'exercice suivant et revenez à celui-ci à la fin</li>
+    </ul>
+  </div>
+
+  <div class="ibox">
+    <h3>⬆️ Règle de surcharge progressive</h3>
+    <ul>
+      <li>Notez vos poids et répétitions après chaque séance</li>
+      <li>Si vous réussissez toutes les reps avec bonne forme <strong>2 séances de suite</strong> → augmentez de <strong>1 à 2,5 kg</strong></li>
+      <li>Priorité à la forme correcte avant d'augmenter les charges</li>
+    </ul>
+  </div>
+
+  <div class="ibox">
+    <h3>⏱ Temps de repos entre séries</h3>
+    <ul>
+      <li><strong>Squat, Deadlift, Développé, Tirage :</strong> 90–120 secondes</li>
+      <li><strong>Curl, Élévations, Triceps :</strong> 60–90 secondes</li>
+      <li><strong>Gainage, Core :</strong> 45–60 secondes</li>
+    </ul>
+  </div>
+
+  <div class="ibox">
+    <h3>🔄 Progression développé couché &amp; militaire</h3>
+    <ul>
+      <li><strong>Semaines 1–4 :</strong> Machine presse + haltères 2–3 kg épaules</li>
+      <li><strong>Semaines 5–6 :</strong> Testez haltères 4 kg au banc · Si OK → basculez</li>
+      <li><strong>Semaine 7+ :</strong> Progression standard selon règle ci-dessus</li>
+    </ul>
+  </div>
+
+  <div class="ibox o">
+    <h3>⚠️ Rappel alimentation</h3>
+    <ul>
+      <li>Mangez avant chaque séance (banane + noix 30–60 min avant)</li>
+      <li>Ne venez jamais à jeun à la salle</li>
+      <li>Objectif : 1 850–2 100 kcal/jour dont 65–80 g de lipides</li>
+      <li>Boire 1,5–2 L d'eau par jour</li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer">
+  GIFs © <a href="https://fitnessprogramer.com" target="_blank">fitnessprogramer.com</a> · Nécessite une connexion internet<br>
+  Ce programme ne remplace pas un avis médical.
+</div>
+
+<script>
+function showTab(name, btn) {
+  document.querySelectorAll('.tc').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tb').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+function toggleV(btn) {
+  const grid = btn.nextElementSibling;
+  const open = grid.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.querySelector('.arrow').textContent = open ? '▲' : '▼';
+}
+</script>
+</body>
+</html>
