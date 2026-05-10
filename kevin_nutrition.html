@@ -1,0 +1,229 @@
+<div class="tabs" id="kn-tabs">
+  <button class="tb active" onclick="showKNWeek(0,this)">SEMAINE 1</button>
+  <button class="tb" onclick="showKNWeek(1,this)">SEMAINE 2</button>
+  <button class="tb" onclick="showKNWeek(2,this)">SEMAINE 3</button>
+  <button class="tb" onclick="showKNWeek(3,this)">SEMAINE 4</button>
+</div>
+
+<div class="tc active" style="padding:12px;max-width:860px;margin:0 auto;">
+
+  <div class="kn-banner">
+    <span>🎯 Objectif prise de masse · 71 kg · 176 cm</span>
+    <div class="kn-macros">
+      <span class="kn-macro kn-kcal">~2 800 kcal/jour sport · ~2 200 repos</span>
+      <span class="kn-macro kn-p">🥩 130–150g protéines</span>
+      <span class="kn-macro kn-l">🧈 80–100g lipides</span>
+      <span class="kn-macro kn-g">🌾 300–360g glucides</span>
+    </div>
+  </div>
+
+  <div id="kn-content"></div>
+
+  <div class="footer" style="font-size:.7rem;color:#aaa;text-align:center;padding:14px 0 4px;">
+    Valeurs indicatives · Utilise MyFitnessPal pour un suivi précis
+  </div>
+</div>
+
+<style>
+  .kn-banner{background:linear-gradient(135deg,#3D2470,#5B3D8A);color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:14px;}
+  .kn-banner > span{font-size:.82rem;font-weight:700;display:block;margin-bottom:8px;}
+  .kn-macros{display:flex;flex-wrap:wrap;gap:6px;}
+  .kn-macro{padding:4px 10px;border-radius:20px;font-size:.74rem;font-weight:600;}
+  .kn-kcal{background:rgba(255,255,255,.2);color:#fff;}
+  .kn-p{background:#FFE8D6;color:#9B4F1A;}
+  .kn-l{background:#FFF3CD;color:#856A00;}
+  .kn-g{background:#D8F0FF;color:#0062A3;}
+
+  .kn-day{background:#fff;border-radius:12px;box-shadow:0 1px 6px rgba(0,0,0,.07);border:1px solid #eee;margin-bottom:12px;overflow:hidden;}
+  .kn-day-hdr{padding:11px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .kn-day-hdr.gym{background:linear-gradient(90deg,#5B3D8A,#7B5EA7);}
+  .kn-day-hdr.tennis{background:linear-gradient(90deg,#C47A2A,#E09840);}
+  .kn-day-hdr.rest{background:linear-gradient(90deg,#3a6b5a,#5A9E7A);}
+  .kn-day-hdr h3{color:#fff;font-size:.9rem;font-weight:700;margin:0;}
+  .kn-day-hdr p{color:rgba(255,255,255,.85);font-size:.73rem;margin:2px 0 0;}
+  .kn-day-left{flex:1;}
+  .kn-badge{padding:4px 10px;border-radius:20px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
+  .kn-badge.gym{background:rgba(255,255,255,.25);color:#fff;}
+  .kn-badge.tennis{background:rgba(255,255,255,.25);color:#fff;}
+  .kn-badge.rest{background:rgba(255,255,255,.25);color:#fff;}
+  .kn-kcal-badge{background:rgba(255,255,255,.2);color:#fff;padding:4px 10px;border-radius:20px;font-size:.72rem;font-weight:700;white-space:nowrap;}
+
+  .kn-meals{padding:10px 14px;display:flex;flex-direction:column;gap:8px;}
+  .kn-meal{border-radius:8px;overflow:hidden;border:1px solid #f0f0f0;}
+  .kn-meal-hdr{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#f8f8f8;cursor:pointer;user-select:none;}
+  .kn-meal-hdr:hover{background:#f0f0f0;}
+  .kn-meal-emoji{font-size:1rem;width:22px;text-align:center;}
+  .kn-meal-label{font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#888;flex:1;}
+  .kn-meal-name{font-size:.8rem;font-weight:600;color:#1A2E24;}
+  .kn-meal-kcal{font-size:.72rem;color:#888;white-space:nowrap;}
+  .kn-meal-arrow{font-size:.65rem;color:#bbb;transition:transform .2s;}
+  .kn-meal.open .kn-meal-arrow{transform:rotate(180deg);}
+  .kn-meal-body{display:none;padding:8px 10px 10px;background:#fff;}
+  .kn-meal.open .kn-meal-body{display:block;}
+  .kn-meal-body ul{padding-left:16px;margin:0;}
+  .kn-meal-body li{font-size:.79rem;line-height:1.8;color:#444;}
+  .kn-meal-macros{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap;}
+  .kn-mpill{padding:2px 8px;border-radius:20px;font-size:.69rem;font-weight:600;}
+  .kn-mpill.p{background:#FFE8D6;color:#9B4F1A;}
+  .kn-mpill.l{background:#FFF3CD;color:#856A00;}
+  .kn-mpill.g{background:#D8F0FF;color:#0062A3;}
+  .kn-sport-tag{font-size:.66rem;background:#5B3D8A;color:#fff;padding:2px 7px;border-radius:20px;margin-left:4px;}
+</style>
+
+<script>
+(function(){
+const M = {
+  B1:{e:'🍳',name:'Omelette puissance',kcal:750,P:46,L:28,G:85,
+    items:['4 œufs brouillés à l\'huile d\'olive','80g flocons d\'avoine + 200ml lait entier','1 banane mûre','Café au lait ou thé']},
+  B2:{e:'🥣',name:'Bowl yaourt granola',kcal:680,P:28,L:22,G:80,
+    items:['200g yaourt grec entier','50g granola complet','30g amandes effilées','1 pomme','Café']},
+  B3:{e:'🍞',name:'Pain & beurre cacahuète',kcal:720,P:36,L:34,G:66,
+    items:['3 tranches pain complet grillé','40g beurre de cacahuète','3 œufs brouillés','1 orange','Café']},
+  B4:{e:'🥞',name:'Pancakes avoine',kcal:700,P:36,L:22,G:92,
+    items:['100g flocons avoine + 3 œufs + 250ml lait → pancakes','1 banane tranchée','1 c.s. sirop d\'érable','Café']},
+
+  L1:{e:'🍚',name:'Riz poulet légumes',kcal:820,P:58,L:24,G:72,
+    items:['220g blanc de poulet grillé','80g riz complet (cru) → 200g cuit','200g légumes sautés (courgette, poivron, oignon)','2 c.s. huile d\'olive + herbes']},
+  L2:{e:'🍝',name:'Pâtes bolognaise',kcal:870,P:52,L:26,G:100,
+    items:['200g bœuf haché 5% MG','80g pâtes complètes (crues)','150g sauce tomate','20g parmesan râpé','Salade verte']},
+  L3:{e:'🐟',name:'Saumon & patate douce',kcal:800,P:46,L:36,G:68,
+    items:['200g pavé de saumon','250g patate douce rôtie','Salade verte + ½ avocat','Vinaigrette citron-olive']},
+  L4:{e:'🫘',name:'Bowl thon & lentilles',kcal:760,P:60,L:18,G:74,
+    items:['200g thon au naturel (2 boîtes)','200g lentilles cuites','Légumes rôtis (courgette, champignons)','2 c.s. huile d\'olive']},
+
+  C1:{e:'🍌',name:'Banane & amandes',kcal:340,P:8,L:16,G:48,sport:true,
+    items:['2 bananes mûres','30g amandes grillées','1 café (optionnel)','⏱ 45–60 min avant séance']},
+  C2:{e:'🍞',name:'Pain cacahuète miel',kcal:370,P:12,L:18,G:48,sport:true,
+    items:['2 tranches pain complet','40g beurre de cacahuète','1 c.s. miel','⏱ 45–60 min avant séance']},
+  C3:{e:'🥛',name:'Yaourt & avoine',kcal:320,P:18,L:8,G:46,sport:true,
+    items:['150g yaourt grec','40g flocons d\'avoine','20g raisins secs + 1 kiwi','⏱ 45–60 min avant séance']},
+  CR1:{e:'🍎',name:'Collation légère',kcal:200,P:6,L:4,G:30,
+    items:['1 yaourt nature entier','1 banane ou 1 pomme']},
+  CR2:{e:'🥜',name:'Noix & chocolat',kcal:180,P:4,L:14,G:12,
+    items:['30g noix mixtes (noix, cajou, amandes)','2 carrés chocolat noir 70%']},
+
+  D1:{e:'🥩',name:'Steak, riz & brocoli',kcal:650,P:50,L:22,G:56,
+    items:['200g steak haché 5% MG','60g riz basmati cru → 150g cuit','250g brocoli vapeur','1 c.s. huile d\'olive']},
+  D2:{e:'🥚',name:'Œufs, lentilles & épinards',kcal:580,P:44,L:22,G:50,
+    items:['4 œufs (omelette ou pochés)','200g lentilles corail cuites','150g épinards sautés à l\'ail','1 c.s. huile d\'olive']},
+  D3:{e:'🐟',name:'Cabillaud, PDT & haricots',kcal:580,P:44,L:12,G:66,
+    items:['200g cabillaud (ou merlu)','200g pommes de terre vapeur','200g haricots verts','1 c.s. huile d\'olive + citron']},
+  D4:{e:'🍗',name:'Poulet & patate douce rôtis',kcal:650,P:52,L:16,G:66,
+    items:['200g blanc de poulet','200g patate douce','200g légumes rôtis (champignons, courgette)','1 c.s. huile d\'olive + herbes de Provence']},
+
+  E1:{e:'🫙',name:'Fromage blanc & noix',kcal:280,P:26,L:12,G:18,
+    items:['200g fromage blanc 0%','20g noix du Brésil ou noix de Grenoble','1 c.s. miel']},
+  E2:{e:'🧀',name:'Ricotta & amandes',kcal:240,P:18,L:14,G:10,
+    items:['150g ricotta','20g amandes effilées','Cannelle généreuse']},
+};
+
+// weeks[w][d] = { day, sub, type:'gym'|'tennis'|'rest', B, L, C, D, E }
+// C = pre-workout (null on rest), E = evening snack (null on rest)
+const WEEKS = [
+  // S1
+  [
+    {day:'LUNDI',sub:'Salle · Push — Pecto · Épaules · Triceps',type:'gym',B:'B1',L:'L1',C:'C1',D:'D1',E:'E1'},
+    {day:'MARDI',sub:'Repos actif · Marche, mobilité',type:'rest',B:'B2',L:'L4',C:'CR1',D:'D2',E:null},
+    {day:'MERCREDI',sub:'Salle · Pull — Dos · Biceps · Épaules arrière',type:'gym',B:'B3',L:'L2',C:'C2',D:'D3',E:'E2'},
+    {day:'JEUDI',sub:'Repos actif · Étirements, mobilité',type:'rest',B:'B4',L:'L3',C:'CR2',D:'D4',E:null},
+    {day:'VENDREDI',sub:'Salle · Jambes — Cuisses · Fessiers · Mollets',type:'gym',B:'B1',L:'L2',C:'C3',D:'D1',E:'E1'},
+    {day:'SAMEDI',sub:'Tennis · Cardio modéré 60–90 min',type:'tennis',B:'B2',L:'L1',C:'C1',D:'D3',E:null},
+    {day:'DIMANCHE',sub:'Repos complet · Récupération',type:'rest',B:'B3',L:'L3',C:'CR1',D:'D2',E:null},
+  ],
+  // S2
+  [
+    {day:'LUNDI',sub:'Salle · Push — Pecto · Épaules · Triceps',type:'gym',B:'B2',L:'L2',C:'C2',D:'D2',E:'E2'},
+    {day:'MARDI',sub:'Repos actif · Marche, mobilité',type:'rest',B:'B3',L:'L1',C:'CR2',D:'D3',E:null},
+    {day:'MERCREDI',sub:'Salle · Pull — Dos · Biceps · Épaules arrière',type:'gym',B:'B4',L:'L3',C:'C3',D:'D4',E:'E1'},
+    {day:'JEUDI',sub:'Repos actif · Étirements, mobilité',type:'rest',B:'B1',L:'L4',C:'CR1',D:'D1',E:null},
+    {day:'VENDREDI',sub:'Salle · Jambes — Cuisses · Fessiers · Mollets',type:'gym',B:'B2',L:'L1',C:'C1',D:'D2',E:'E2'},
+    {day:'SAMEDI',sub:'Tennis · Cardio modéré 60–90 min',type:'tennis',B:'B3',L:'L2',C:'C2',D:'D4',E:null},
+    {day:'DIMANCHE',sub:'Repos complet · Récupération',type:'rest',B:'B4',L:'L3',C:'CR2',D:'D3',E:null},
+  ],
+  // S3
+  [
+    {day:'LUNDI',sub:'Salle · Push — Pecto · Épaules · Triceps',type:'gym',B:'B3',L:'L3',C:'C3',D:'D3',E:'E1'},
+    {day:'MARDI',sub:'Repos actif · Marche, mobilité',type:'rest',B:'B4',L:'L2',C:'CR1',D:'D4',E:null},
+    {day:'MERCREDI',sub:'Salle · Pull — Dos · Biceps · Épaules arrière',type:'gym',B:'B1',L:'L4',C:'C1',D:'D1',E:'E2'},
+    {day:'JEUDI',sub:'Repos actif · Étirements, mobilité',type:'rest',B:'B2',L:'L1',C:'CR2',D:'D2',E:null},
+    {day:'VENDREDI',sub:'Salle · Jambes — Cuisses · Fessiers · Mollets',type:'gym',B:'B3',L:'L3',C:'C2',D:'D3',E:'E1'},
+    {day:'SAMEDI',sub:'Tennis · Cardio modéré 60–90 min',type:'tennis',B:'B4',L:'L4',C:'C3',D:'D1',E:null},
+    {day:'DIMANCHE',sub:'Repos complet · Récupération',type:'rest',B:'B1',L:'L2',C:'CR1',D:'D4',E:null},
+  ],
+  // S4
+  [
+    {day:'LUNDI',sub:'Salle · Push — Pecto · Épaules · Triceps',type:'gym',B:'B4',L:'L4',C:'C1',D:'D4',E:'E2'},
+    {day:'MARDI',sub:'Repos actif · Marche, mobilité',type:'rest',B:'B1',L:'L3',C:'CR2',D:'D1',E:null},
+    {day:'MERCREDI',sub:'Salle · Pull — Dos · Biceps · Épaules arrière',type:'gym',B:'B2',L:'L2',C:'C2',D:'D2',E:'E1'},
+    {day:'JEUDI',sub:'Repos actif · Étirements, mobilité',type:'rest',B:'B3',L:'L1',C:'CR1',D:'D3',E:null},
+    {day:'VENDREDI',sub:'Salle · Jambes — Cuisses · Fessiers · Mollets',type:'gym',B:'B4',L:'L4',C:'C3',D:'D4',E:'E2'},
+    {day:'SAMEDI',sub:'Tennis · Cardio modéré 60–90 min',type:'tennis',B:'B1',L:'L3',C:'C1',D:'D2',E:null},
+    {day:'DIMANCHE',sub:'Repos complet · Récupération',type:'rest',B:'B2',L:'L4',C:'CR2',D:'D1',E:null},
+  ],
+];
+
+function mealRow(label, emoji, key, extra) {
+  const m = M[key]; if(!m) return '';
+  const sportTag = m.sport ? '<span class="kn-sport-tag">⚡ Pré-séance</span>' : '';
+  const items = m.items.map(i=>`<li>${i}</li>`).join('');
+  return `
+  <div class="kn-meal" onclick="toggleMeal(this)">
+    <div class="kn-meal-hdr">
+      <span class="kn-meal-emoji">${m.e}</span>
+      <span class="kn-meal-label">${label}${sportTag}</span>
+      <span class="kn-meal-name">${m.name}</span>
+      <span class="kn-meal-kcal">${m.kcal} kcal</span>
+      <span class="kn-meal-arrow">▼</span>
+    </div>
+    <div class="kn-meal-body">
+      <ul>${items}</ul>
+      <div class="kn-meal-macros">
+        <span class="kn-mpill p">🥩 ${m.P}g</span>
+        <span class="kn-mpill l">🧈 ${m.L}g</span>
+        <span class="kn-mpill g">🌾 ${m.G}g</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderWeek(wi) {
+  const days = WEEKS[wi];
+  const typeLabel = {gym:'💪 GYM', tennis:'🎾 TENNIS', rest:'😴 REPOS'};
+  return days.map(d => {
+    const meals = [
+      mealRow('Petit-déjeuner','','B'in d?d.B:'',null),
+      mealRow('Déjeuner','','L'in d?d.L:'',null),
+      d.C ? mealRow('Collation','',d.C,null) : '',
+      mealRow('Dîner','','D'in d?d.D:'',null),
+      d.E ? mealRow('Snack soirée','' ,d.E,null) : '',
+    ].join('');
+    const kcal = ['B','L','C','D','E'].reduce((s,k)=> s + (d[k]&&M[d[k]] ? M[d[k]].kcal : 0), 0);
+    return `
+    <div class="kn-day">
+      <div class="kn-day-hdr ${d.type}">
+        <div class="kn-day-left">
+          <h3>${d.day}</h3>
+          <p>${d.sub}</p>
+        </div>
+        <span class="kn-badge ${d.type}">${typeLabel[d.type]}</span>
+        <span class="kn-kcal-badge">~${kcal} kcal</span>
+      </div>
+      <div class="kn-meals">${meals}</div>
+    </div>`;
+  }).join('');
+}
+
+function showKNWeek(wi, btn) {
+  document.querySelectorAll('#kn-tabs .tb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('kn-content').innerHTML = renderWeek(wi);
+}
+
+function toggleMeal(el) {
+  el.classList.toggle('open');
+}
+
+// Init week 1
+document.getElementById('kn-content').innerHTML = renderWeek(0);
+})();
+</script>
